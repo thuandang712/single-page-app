@@ -21,7 +21,7 @@ const pool = new Pool ({
 })
 
 // GET ALL users
-app.get('/api/users', async (req, res) => {
+app.get('/api/users', async (req, res, next) => {
     try {
         const selectAllUsers = 'SELECT * FROM users'
         let {rows} = await pool.query(selectAllUsers);
@@ -37,7 +37,7 @@ app.get('/api/users', async (req, res) => {
 })
 
 // GET ALL countries
-app.get('/api/countries', async (req, res) => {
+app.get('/api/countries', async (req, res, next) => {
     try {
         const selectAllCountries = 'SELECT DISTINCT ON (country_name) country_id, country_name FROM countries' // removes duplicate countries;
         let {rows} = await pool.query(selectAllCountries);
@@ -171,6 +171,11 @@ app.delete('/api/countries/:id', async (req, res) => {
         console.log('Server error')
         res.status(500).json(error)
     }
+})
+
+// Handle all unknown http GET requests
+app.use( (req, res, next) => {
+    res.status(404).end("Not Found")
 })
 
 
