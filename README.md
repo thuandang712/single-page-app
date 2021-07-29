@@ -1,2 +1,2 @@
 # Simple Fullstack App 
-# H1 This app 
+## This app shows users' names and countries' names
